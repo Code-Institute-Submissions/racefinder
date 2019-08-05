@@ -3,16 +3,42 @@ $(document).ready(function(){
 // jQuery methods go here...
 
 
-console.log("willl it work ???");
+console.log("Pre Parsing");
 
 
 var url ='https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8';
+var raceList = "<ul>";
 
-	$.getJSON(url, function(data) {
 
-	console.log("YASS WEEHHAAA");
+// Using AJAX method instead of getJSON to have a bit more control 
+// https://www.youtube.com/watch?v=j-S5MBs4y0Q
 
-	});
+$.ajax ({
+	url: url,
+	dataType: 'json',
+	type: 'get',
+	cache: false,
+	success : function(data) {
+		console.log("During Parsing");
+		console.log(data);
+		$(data.results).each(function(index, value){
+			raceList += "<li> "+ value.assetName + "</li>";
+		});
+			
+		console.log("Post Parsing");
+		raceList += "</ul>";
+		console.log("HTML result");
+		console.log(raceList);
+		$('#race-data-container').append(raceList);
+		console.log("After Appending HTML");
+	}
+});
+
+
+
+
+
+
 
 // http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 // API key: y3ptgtcc32fd8dcakhcck2c8
@@ -22,8 +48,6 @@ var url ='https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/searc
 
 // https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 
-
-// .data-container
 
 
 });
