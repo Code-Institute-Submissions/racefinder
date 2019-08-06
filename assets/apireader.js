@@ -1,40 +1,33 @@
-$(document).ready(function(){
-
-// jQuery methods go here...
-
-
-console.log("Pre Parsing");
+// $(document).ready(function(){});
 
 
 var urlbase ='https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/search?query=running&category=event';
-var urlpage = '&current_page=1';
-var urlresultperpage = '&per_page=1000';
-var urlstartdate = '&start_date=2019-01-01..';
+var pagenumber = 1;
+var urlpage = '&current_page='+pagenumber;
+var resultsperpage = 5;
+var urlresultperpage = '&per_page='+resultsperpage;
+
+var urlstartdate = '&start_date=2009-01-01..';
 var urlenddate = '2019-06-30';
-var urlorder = '&sort=date_asc';
-// could be 'date_desc' or 'distance'
-
-// var urlplace = '&near=San%20Diego,CA,US';§
-var urlplace = '&near=london,GB';
-
-var urlradius = '&radius=50';
+var urlorder = '&sort=date_asc'; // could be 'date_desc' or 'distance'
+var urlplace = '&near=london,GB'; // location (city, country)
+var urlradius = '&radius=50'; // in miles
 var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
-
-var raceList = "<ul>";
-
-
 
 var urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlenddate + urlorder + urlplace + urlradius + apikey
 
+var number_results = 0;
+var raceList = "<p>Number of results : ";
 // Using AJAX method instead of getJSON to have a bit more control 
 // https://www.youtube.com/watch?v=j-S5MBs4y0Q
 
 
-	$("#searchbutton").click(NewRequest());
+function NewRequest()
+{
 
 
-	function NewRequest()
-	{
+
+
 		$.ajax (
 		{
 			url: urlcomplete,
@@ -42,10 +35,20 @@ var urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlendda
 			type: 'get',
 			cache: false,
 
+			// error handling courtesy of https://jsfiddle.net/Sk8erPeter/AGpP5/
+
+			error: function(jqXHR, textStatus, errorThrown) 
+			{
+                $('#race-data-container').append('<p><span>API Error, please contact the dev Raph Zenou and quote these details:<br>Status code: '+jqXHR.status+' | ' + errorThrown + ' | '+ jqXHR.responseText + '</span></p>');
+            },
+
 			success : function(data) 
 			{
-				console.log("During Parsing");
+				console.log("nb of results");
 				console.log(data);
+				number_results = data.total_results;
+				raceList += number_results + "</p><br><ul>";
+
 				$(data.results).each(function(index, value)
 
 				{
@@ -53,20 +56,31 @@ var urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlendda
 					// + " - " + value.assetAttributes[0].attribute.attributeValue
 					+ " - " + value.assetName + "</li>";	
 				});
+
+
 					
-				console.log("Post Parsing");
 				raceList += "</ul>";
-				console.log("HTML result");
-				$('#race-data-container').append(raceList);
+
+				// Error message in case of no results available for the details entered
+
+
+
+				if (number_results === 0 ) { 
+					$('#race-data-container').append("<p> No results, please try again!</p>");
+				} else { 
+					$('#race-data-container').append(raceList);
+				}
+				
 				console.log("After Appending HTML");
+				
+
 			}
 		});
-	}
-	
 
 
+}
 
-});
+$("#searchbutton").click(NewRequest());
 
 
 
