@@ -2,3 +2,8 @@
 	font-size: 12px;
 }
 
+img {
+	border: none;
+	margin:0;
+	padding:0;
+}

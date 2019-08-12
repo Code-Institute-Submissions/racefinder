@@ -9,6 +9,17 @@ $(document).ready(function(){
 	
 
 
+	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
+	// API key: y3ptgtcc32fd8dcakhcck2c8
+
+	// API documentation : 
+	// http://developer.active.com/docs/read/v2_Activity_API_Search
+	// http://developer.active.com/docs/v2_activity_api_search#ranges
+
+	// Other ideas :
+	// https://www.w3schools.com/howto/howto_js_autocomplete.asp
+
+
 	function URLbuilder(page)
 	{
 
@@ -58,7 +69,7 @@ $(document).ready(function(){
 		raceList = "<p><ul>"; 
 		raceListNumbers ="<p>Number of results : ";
 		number_results = 0;
-		$('#race-data-container').html("Loading.......");
+		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
 	}
 
 
@@ -72,6 +83,7 @@ $(document).ready(function(){
 	{
 
 		// doc https://api.jquery.com/jquery.ajax/
+		// standard ajax request
 
 		$.ajax (
 		{
@@ -80,7 +92,7 @@ $(document).ready(function(){
 			type: 'get',
 			cache: false,
 
-			// 1 type of error handling courtesy of https://jsfiddle.net/Sk8erPeter/AGpP5/
+			// 1 type of error handling courtesy of the official doc but also https://jsfiddle.net/Sk8erPeter/AGpP5/
 
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
@@ -144,9 +156,12 @@ $(document).ready(function(){
 		Initialise();
 		//Initialising
         var parameters = URLbuilder(1);
-        // fetching data from the URLbuilder function that uses the user input 
+        // fetching data from the URLbuilder function that uses the user input using page 1 as the default page and unique parameter
+        //other parameters are taken from the user's input
+
 		NewRequest(parameters[0], parameters[1], parameters[2]);
-		// sending the request with the correct data
+		// sending the request with the correct data coming from the URLBuilder 'return' which is an array of 3 elements 
+		// that we called stored in the 'parameters' variable
 
 		return false;
 
@@ -200,16 +215,6 @@ $(document).ready(function(){
 });
 
 
-// main function called when the button is clicked
 
 
-// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
-// API key: y3ptgtcc32fd8dcakhcck2c8
-
-// API documentation : 
-// http://developer.active.com/docs/read/v2_Activity_API_Search
-// http://developer.active.com/docs/v2_activity_api_search#ranges
-
-// Other ideas :
-// https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
