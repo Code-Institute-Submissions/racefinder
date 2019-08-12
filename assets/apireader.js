@@ -70,7 +70,7 @@ $(document).ready(function(){
 				$(data.results).each(function(index, value)
 
 				{
-					raceList += "<li> "+ value.salesStartDate 
+					raceList += "<li> "+ value.salesStartDate.slice(0,10)
 					+ " - " + value.assetName + "</li>";	
 				});
 
