@@ -34,7 +34,7 @@
 
 </head>
 <body>
-	<div class="main container fluid">
+	<div class="main container fluid" id="top">
 		
 
 		<div class="col">
@@ -44,15 +44,20 @@
 
 				<form>
 
-				  <input type="text" id="inputCity">
+				  <input type="text" id="inputcity" placeholder="City" value='london'>
 				  <br>
-				  <input type="text" id="resultPerPage">
+				  <input type="text" id="resultperpage" placeholder="Results per page" value=10>
 				  <br>
 				  <button class="btn" id="searchbutton">Search</button>
 				  <button class="btn" id="clearbutton">Clear</button>
+				  <button class="btn" id="gobutton">Go to page..</button>
+				  <input type="text" id="pagenumberinput" placeholder=1>
 				</form>
 
 				<div id="race-data-container"></div>
+
+				<button class="btn" id="upbutton"><a href="#top">Back to Top<a/></button>
+
 				
 			</div>
 		</div>

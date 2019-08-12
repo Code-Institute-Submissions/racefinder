@@ -1,5 +1,14 @@
+.event-box {
+
+	background: none;
+	padding: 5px 5px 5px 5px;
+
+}
+
+
 #race-data-container {
 	font-size: 12px;
+	padding-top: 30px;
 }
 
 img {

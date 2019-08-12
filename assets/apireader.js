@@ -5,9 +5,15 @@ $(document).ready(function(){
 	var raceList = "<p><ul>"; 
 	var raceListNumbers ="<p>Number of results : ";
 	var number_results = 0;
+	var resultsperpage  = 10;
+	var city = 'london';
+	var gotopage =	1;
+	// defaulted to page one for search results
 
 	
-
+	$('#gobutton').hide();
+	$('#pagenumberinput').hide();
+	$('#upbutton').hide();
 
 	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 	// API key: y3ptgtcc32fd8dcakhcck2c8
@@ -35,7 +41,8 @@ $(document).ready(function(){
 		var pagenumber = page;
 		//defaulted to 1
 		var urlpage = '&current_page='+pagenumber;
-		var resultsperpage = $('#resultPerPage').val();
+		resultsperpage = $('#resultperpage').val();
+		// parseInto to make sure any string input could potentially be used
 
 		var urlresultperpage = '&per_page='+resultsperpage;
 		var numberofpages = 0;
@@ -44,7 +51,7 @@ $(document).ready(function(){
 		var urlenddate = '2019-06-30';
 		var urlorder = '&sort=date_asc'; // could be 'date_desc' or 'distance'
 		// var city = $('#inputCity').val();
-		var city = 'london';
+		var city = $('#inputcity').val().toLowerCase();
 		var urlplace = '&near=' + city+ ',GB'; // location (city, country)
 		var urlradius = '&radius=50'; // in miles
 		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
@@ -66,7 +73,7 @@ $(document).ready(function(){
 // Function to refresh the data to zero when a new request is submitted or when the page is cleared
 	function Initialise() 
 	{
-		raceList = "<p><ul>"; 
+		raceList = "<div id=event-list>"; 
 		raceListNumbers ="<p>Number of results : ";
 		number_results = 0;
 		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
@@ -114,13 +121,20 @@ $(document).ready(function(){
 				$(data.results).each(function(index, value)
 
 				{
-					raceList += "<li> "+ value.salesStartDate.slice(0,10)
-					+ " - " + value.assetName + "</li>";	
+					// sometimes the API data returns null on the date so this is to avoid getting an error 
+					if(value.salesStartDate==null) 
+					{
+						date = 'TBD';
+					} else {
+						date = value.salesStartDate.slice(0,10);
+					}
+
+					raceList += `<div class="event-box">`+ date + ` - ` + value.assetName + `</div>`;	
 				});
 
 
 				// closing the html unordered list
-				raceList += "</ul>";
+				raceList += "</div>";
 
 				// 2nd type of error handling in case of no results available for the details entered in case of a succesful API call
 
@@ -131,16 +145,33 @@ $(document).ready(function(){
 				// Append all the info collected and formatted to the html document
 
 					$('#race-data-container').html(raceListNumbers);
-					$('#race-data-container').append(raceList);
 					$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
-					
-					$('#race-data-container').append(`<form><br><button class="btn" id="gobutton">Go to page >></button><input type="text" id="pagenumberinput"></form>`);
-					console.log('5 - API Parsing and results populating done');
+					$('#race-data-container').append(raceList);
+
+					if(resultsperpage >= 20) 
+					{
+						$('#upbutton').show();
+					} else {
+						$('#upbutton').hide();
+					}
+					// $('#race-data-container').append(`<form><br><button class="btn" id="gobutton">Go to page >></button><input type="text" id="pagenumberinput"></form>`);
+					// console.log('5 - API Parsing and results populating done');
 				}
 
 			}
 		});
 
+	}
+
+	function Request(gotopage) 
+	{
+		Initialise();
+		var parameters = URLbuilder(gotopage);
+		// fetching data from the URLbuilder function that uses the user input using page 1 as the default page and unique parameter
+        //other parameters are taken from the user's input
+		NewRequest(parameters[0], parameters[1], parameters[2]);
+		// sending the request with the correct data coming from the URLBuilder 'return' which is an array of 3 elements 
+		// that we called stored in the 'parameters' variable
 	}
 
 
@@ -152,16 +183,31 @@ $(document).ready(function(){
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
+		Request(1);
 
-		Initialise();
-		//Initialising
-        var parameters = URLbuilder(1);
-        // fetching data from the URLbuilder function that uses the user input using page 1 as the default page and unique parameter
-        //other parameters are taken from the user's input
+		$('#gobutton').show();
+		$('#pagenumberinput').show();
 
-		NewRequest(parameters[0], parameters[1], parameters[2]);
-		// sending the request with the correct data coming from the URLBuilder 'return' which is an array of 3 elements 
-		// that we called stored in the 'parameters' variable
+
+		return false;
+
+
+	});
+
+
+
+// clicking on the Go button
+
+
+	$("#gobutton").click(function(e)
+	{
+		e.preventDefault(); 
+
+		// same comments as for the Search button
+
+		var gotopage_click = $('#pagenumberinput').val();
+		console.log(gotopage_click);
+		Request(gotopage_click);
 
 		return false;
 
@@ -179,38 +225,22 @@ $(document).ready(function(){
 
 		Initialise();
 		//Initialising
+		gotopage =1;
 
 		$('#race-data-container').html(`<span> Please enter details and hit "Search" </span>`);
 		//Giving user suggestions
 
+
+		$('#gobutton').hide();
+		$('#pagenumberinput').hide();
+		$('#upbutton').hide();
+
 		return false;
+
 
 	});
 
 
-// clicking on the Go button
-
-
-	$("#gobutton").click(function(e)
-	{
-		e.preventDefault(); 
-		// to avoid page refresh on click
-		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-
-		Initialise();
-		//Initialising
-
-        var parameters = URLbuilder($('#pagenumberinput').val());
-        // fetching data from the URLbuilder function that uses the user input 
-
-        //pagenumberinput"
-
-		NewRequest(parameters[0], parameters[1], parameters[2]);
-		// sending the request with the correct data
-
-		return false;
-
-	});
 
 });
 
