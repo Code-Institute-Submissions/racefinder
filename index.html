@@ -22,12 +22,21 @@
 		<!-- Latest compiled Bootstrap related JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+		<!-- jQuery  UI for autocomplete	-->
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 
 	<!-- OWN CSS + JS -->
 
 
  	 <script type="text/javascript" src="assets/apireader.js"></script>
- 	 <link rel="stylesheet" href="assets/style.css" type="text/css"/>
+	 <link rel="stylesheet" href="assets/style.css" type="text/css"/>
+	 <script type="text/javascript" src="assets/forms.js"></script>
+
+	 
+
 
 
  	 <title>Race Finder</title>
@@ -42,16 +51,24 @@
 
 				<h1>Race Finder</h1>
 
-				<form>
+	<!-- autocomplete -->
 
-				  <input type="text" id="inputcity" placeholder="City" value='london'>
-				  <br>
-				  <input type="text" id="resultperpage" placeholder="Results per page" value=10>
-				  <br>
-				  <button class="btn" id="searchbutton">Search</button>
-				  <button class="btn" id="clearbutton">Clear</button>
-				  <button class="btn" id="gobutton">Go to page..</button>
-				  <input type="text" id="pagenumberinput" placeholder=1>
+
+				<div class="ui-widget">
+
+				</div>
+
+				<form>
+					<label for="tags">Tags: </label>
+					 <input id="tags">
+					 <input type="text" id="inputcity" placeholder="City" value='london'>
+					 <br>
+					 <input type="text" id="resultperpage" placeholder="Results per page" value=10>
+					 <br>
+					 <button class="btn" id="searchbutton">Search</button>
+					  <button class="btn" id="clearbutton">Clear</button>
+					  <button class="btn" id="gobutton">Go to page..</button>
+					  <input type="text" id="pagenumberinput" placeholder=1>
 				</form>
 
 				<div id="race-data-container"></div>
