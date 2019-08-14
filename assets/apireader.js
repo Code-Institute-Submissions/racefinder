@@ -10,10 +10,10 @@ $(document).ready(function(){
 	var gotopage =	1;
 	// defaulted to page one for search results
 
-	
 	$('#gobutton').hide();
 	$('#pagenumberinput').hide();
 	$('#upbutton').hide();
+	$('#btnlinkpage').hide();
 
 	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 	// API key: y3ptgtcc32fd8dcakhcck2c8
@@ -50,10 +50,11 @@ $(document).ready(function(){
 		var urlstartdate = '&start_date=2018-01-01..';
 		var urlenddate = '2019-06-30';
 		var urlorder = '&sort=date_asc'; // could be 'date_desc' or 'distance'
-		// var city = $('#inputCity').val();
 		var city = $('#inputcity').val().toLowerCase();
 		var urlplace = '&near=' + city+ ',GB'; // location (city, country)
-		var urlradius = '&radius=50'; // in miles
+		// var urlradius = '&radius=50'; // in miles
+		var urlradius = '&radius='+$('#radius').val(); // in miles
+
 		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
 
 		urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlenddate + urlorder + urlplace + urlradius + apikey;
@@ -66,9 +67,7 @@ $(document).ready(function(){
 		console.log(urlcomplete);
 
 		return [urlcomplete, resultsperpage, pagenumber];
-
 	}
-
 
 // Function to refresh the data to zero when a new request is submitted or when the page is cleared
 	function Initialise() 
@@ -79,12 +78,30 @@ $(document).ready(function(){
 		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
 	}
 
-
-
-
 	// Using AJAX method instead of getJSON to have a bit more control 
 	// https://www.youtube.com/watch?v=j-S5MBs4y0Q
 
+	function DisplayPages(pagenumber, numberofpages)
+	{
+
+		$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
+		
+		// if (pagenumber === 1) {$('#race-data-container')
+		// 	.append('<a id="linkpage" href="#">LINK</a>');
+
+		// } else if (pagenumber == numberofpages)  { // not === because of the imperfect math.ceil result
+
+		// $('#race-data-container').append("<p>" + pagenumber + " ..." + numberofpages + " Last</p>");
+
+		// } else {
+
+		// $('#race-data-container').append("<p> In between " + pagenumber + " and " + numberofpages + "</p>");
+		// }
+
+		$('#gobutton').show();
+		$('#pagenumberinput').show();
+		$('#btnlinkpage').show();
+	}
 
 	function NewRequest(urlapi, resultsperpage, pagenumber)
 	{
@@ -145,7 +162,6 @@ $(document).ready(function(){
 				// Append all the info collected and formatted to the html document
 
 					$('#race-data-container').html(raceListNumbers);
-					$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
 					$('#race-data-container').append(raceList);
 
 					if(resultsperpage >= 20) 
@@ -158,9 +174,10 @@ $(document).ready(function(){
 					// console.log('5 - API Parsing and results populating done');
 				}
 
+			DisplayPages(pagenumber, numberofpages);
+
 			}
 		});
-
 	}
 
 	function Request(gotopage) 
@@ -174,8 +191,6 @@ $(document).ready(function(){
 		// that we called stored in the 'parameters' variable
 	}
 
-
-
 // clicking on the Search button
 	$("#searchbutton").click( function(e)
 	{
@@ -185,34 +200,8 @@ $(document).ready(function(){
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
 		Request(1);
 
-		$('#gobutton').show();
-		$('#pagenumberinput').show();
-
-
 		return false;
-
-
 	});
-
-
-
-// clicking on the Go button
-
-
-	$("#gobutton").click(function(e)
-	{
-		e.preventDefault(); 
-
-		// same comments as for the Search button
-
-		var gotopage_click = $('#pagenumberinput').val();
-		console.log(gotopage_click);
-		Request(gotopage_click);
-
-		return false;
-
-	});
-
 
 // clicking on the Clear button
 	$("#clearbutton").click(function(e)
@@ -221,7 +210,7 @@ $(document).ready(function(){
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-		console.log('Clearing');
+		console.log('...Clearing');
 
 		Initialise();
 		//Initialising
@@ -234,14 +223,35 @@ $(document).ready(function(){
 		$('#gobutton').hide();
 		$('#pagenumberinput').hide();
 		$('#upbutton').hide();
+		$("#btnlinkpage").hide();
 
 		return false;
-
-
 	});
 
+// clicking on the Go button
+	$("#gobutton").click(function(e)
+	{
+		e.preventDefault(); 
 
+		// same comments as for the Search button
 
+		var gotopage_click = $('#pagenumberinput').val();
+		console.log(gotopage_click);
+		Request(gotopage_click);
+		return false;
+	});
+
+// clicking on the LINK button
+	$("#btnlinkpage").click( function(e)
+	{
+
+		e.preventDefault(); 
+		// to avoid page refresh on click
+		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
+		Request(7);
+
+		return false;
+	});
 });
 
 

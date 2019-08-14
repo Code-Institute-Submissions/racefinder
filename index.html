@@ -39,7 +39,7 @@
 
 
 
- 	 <title>Race Finder</title>
+ 	 <title>UK Running Race Finder</title>
 
 </head>
 <body>
@@ -59,22 +59,39 @@
 				</div>
 
 				<form>
-					<label for="tags">Tags: </label>
-					 <input id="tags">
-					 <input type="text" id="inputcity" placeholder="City" value='london'>
+					<label for="inputcity">City: </label>
+					 <input id="inputcity" value="London">
 					 <br>
-					 <input type="text" id="resultperpage" placeholder="Results per page" value=10>
+					 <label for="resultperpage">Results Per Page: </label>
+					<select id="resultperpage">
+						  <option value=10>10</option>
+						  <option value=25>25</option>
+						  <option value=50>50</option>
+						  <option value=100>100</option>
+						</select>
+					 <br>
+				 	 <label for="radius">Radius from City (mi): </label>
+						<select id="radius">
+						  <option value='5'>5</option>
+						  <option value='10'>10</option>
+						  <option value='25'>25</option>
+						  <option value='50'>50</option>
+						  <option value='100'>100</option>
+						  <option value='1000'>1000</option>
+						</select>
 					 <br>
 					 <button class="btn" id="searchbutton">Search</button>
-					  <button class="btn" id="clearbutton">Clear</button>
-					  <button class="btn" id="gobutton">Go to page..</button>
-					  <input type="text" id="pagenumberinput" placeholder=1>
+					 <button class="btn" id="clearbutton">Clear</button>
+					 
 				</form>
 
 				<div id="race-data-container"></div>
 
+				<button class="btn" id="btnlinkpage" >LINK</button>
+				<br>
 				<button class="btn" id="upbutton"><a href="#top">Back to Top<a/></button>
-
+				<input type="text" id="pagenumberinput" placeholder=1>
+				<button class="btn" id="gobutton">Go to page</button>
 				
 			</div>
 		</div>
