@@ -47,8 +47,11 @@ $(document).ready(function(){
 		var urlresultperpage = '&per_page='+resultsperpage;
 		var numberofpages = 0;
 
-		var urlstartdate = '&start_date=2018-01-01..';
-		var urlenddate = '2019-06-30';
+		var urlstartdate = '&start_date='+$('#startdate').val()+'..';
+		var urlenddate = $('#enddate').val();
+		// var urlstartdate = '&start_date='+$('#startdate').val().slice(6,10)+'-'+$('#startdate').val().slice(0,2)+'-'+$('#startdate').val().slice(3,5)+'..';
+		// var urlenddate = $('#enddate').val().slice(6,10)+'-'+$('#enddate').val().slice(0,2)+'-'+$('#enddate').val().slice(3,5);
+		
 		var urlorder = '&sort=date_asc'; // could be 'date_desc' or 'distance'
 		var city = $('#inputcity').val().toLowerCase();
 		var urlplace = '&near=' + city+ ',GB'; // location (city, country)
@@ -65,6 +68,12 @@ $(document).ready(function(){
 		console.log(pagenumber);
 		console.log('URL:');
 		console.log(urlcomplete);
+		console.log('Start:');
+		console.log(urlstartdate);
+		console.log('End:');
+		console.log(urlenddate);
+
+
 
 		return [urlcomplete, resultsperpage, pagenumber];
 	}
@@ -84,7 +93,13 @@ $(document).ready(function(){
 	function DisplayPages(pagenumber, numberofpages)
 	{
 
-		$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
+		if (numberofpages >0) {
+			$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
+			$('#gobutton').show();
+			$('#pagenumberinput').show();
+			$('#btnlinkpage').show();
+			}
+		}
 		
 		// if (pagenumber === 1) {$('#race-data-container')
 		// 	.append('<a id="linkpage" href="#">LINK</a>');
@@ -98,10 +113,7 @@ $(document).ready(function(){
 		// $('#race-data-container').append("<p> In between " + pagenumber + " and " + numberofpages + "</p>");
 		// }
 
-		$('#gobutton').show();
-		$('#pagenumberinput').show();
-		$('#btnlinkpage').show();
-	}
+
 
 	function NewRequest(urlapi, resultsperpage, pagenumber)
 	{
@@ -170,8 +182,7 @@ $(document).ready(function(){
 					} else {
 						$('#upbutton').hide();
 					}
-					// $('#race-data-container').append(`<form><br><button class="btn" id="gobutton">Go to page >></button><input type="text" id="pagenumberinput"></form>`);
-					// console.log('5 - API Parsing and results populating done');
+					console.log('5 - API Parsing and results populating done');
 				}
 
 			DisplayPages(pagenumber, numberofpages);
@@ -198,8 +209,11 @@ $(document).ready(function(){
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
+		
+			$('#gobutton').hide();
+			$('#pagenumberinput').hide();
+			$('#btnlinkpage').hide();
 		Request(1);
-
 		return false;
 	});
 

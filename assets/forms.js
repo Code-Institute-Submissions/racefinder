@@ -1,4 +1,35 @@
+
+
+
+// Initialise date picker to today's date by default
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+
+
+// jquery date picker 
+// https://jqueryui.com/datepicker/
+
+  $( function() {
+  	//calling the initialising function
+    $( "#startdate" ).val(new Date().toDateInputValue());
+     $( "#startdate" ).datepicker({dateFormat: "yy-mm-dd"});
+
+  } );
+
+    $( function() {
+    $( "#enddate" ).val(new Date().toDateInputValue());
+    $( "#enddate" ).datepicker({dateFormat: "yy-mm-dd"});
+  } );
+
+
+
+
 // https://jqueryui.com/autocomplete/#default
+
+
 
 $( function() {
     var availableTags = [
