@@ -27,6 +27,16 @@
 	padding-top: 30px;
 }
 
+#loaderimg {
+	max-width: 15vw;
+	filter: grayscale(100%);
+}
+#welcome, #loader {
+	font-size: 20px;
+	text-align: center;
+
+}
+
 img, #upbutton, #active-logo {
 	border: none;
 	margin:0;
@@ -44,18 +54,36 @@ img, #upbutton, #active-logo {
 
 .jumbotron {
     margin: 0px;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("background.jpg") ;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("background.jpg") ;
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
     padding-top:1em;
     padding-bottom:1em;
-    color: black;
+    color: #505058;
 
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
   display: flex;
   align-items: center;
+  height: 40vh;
+}
+
+/*CHECKHERE*/
+
+/*.main {
+
+	height: 53vh;  40 vh for jumbotron + 7 vh for footer
+}*/
+
+footer {
+	position: relative;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+	background-color: #505058;
+	color: #fff;
+	height:7vh;
 }

@@ -83,7 +83,10 @@ $(document).ready(function(){
 		raceList = "<div id=event-list>"; 
 		raceListNumbers ="<p>Number of results : ";
 		number_results = 0;
-		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
+		// $('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
+		
+		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img id="loaderimg" src="https://media.giphy.com/media/3oKGzCvdJbyWsc5Nni/giphy.gif"></div>`);
+
 	}
 
 	// Using AJAX method instead of getJSON to have a bit more control 
@@ -182,13 +185,18 @@ $(document).ready(function(){
 				// 2nd type of error handling in case of no results available for the details entered in case of a succesful API call
 
 				if (number_results === 0 ) { 
-					$('#race-data-container').html("<p> No results, please try again!</p>");
+					$('#race-data-container').html(`<p id="welcome"> API responded succesfully but there were no results with these filters, please try again!</p>`);
 				} else { 
 
 				// Append all the info collected and formatted to the html document
 
 					$('#race-data-container').html(raceListNumbers);
 					$('#race-data-container').append(raceList);
+					
+				// CHECKHERE
+					// $('.main').css({ 'height' : ''});
+					// $('footer').css({'position': 'absolute'});
+				
 
 					if(resultsperpage >= 20) 
 					{
