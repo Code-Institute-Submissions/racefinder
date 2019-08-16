@@ -13,7 +13,6 @@ $(document).ready(function(){
 	$('#gobutton').hide();
 	$('#pagenumberinput').hide();
 	$('#upbutton').hide();
-	$('#btnlinkpage').hide();
 
 	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 	// API key: y3ptgtcc32fd8dcakhcck2c8
@@ -94,10 +93,9 @@ $(document).ready(function(){
 	{
 
 		if (numberofpages >0) {
-			$('#race-data-container').append("<p> Page " + pagenumber + " out of " + numberofpages + "</p>");
+			$('#race-data-container').append("<br><br><p> Page " + pagenumber + " out of " + numberofpages + "</p>");
 			$('#gobutton').show();
 			$('#pagenumberinput').show();
-			$('#btnlinkpage').show();
 			}
 		}
 		
@@ -224,7 +222,7 @@ $(document).ready(function(){
 		
 			$('#gobutton').hide();
 			$('#pagenumberinput').hide();
-			$('#btnlinkpage').hide();
+	
 		Request(1);
 		return false;
 	});
@@ -249,7 +247,7 @@ $(document).ready(function(){
 		$('#gobutton').hide();
 		$('#pagenumberinput').hide();
 		$('#upbutton').hide();
-		$("#btnlinkpage").hide();
+	
 
 		return false;
 	});
@@ -267,17 +265,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-// clicking on the LINK button
-	$("#btnlinkpage").click( function(e)
-	{
-
-		e.preventDefault(); 
-		// to avoid page refresh on click
-		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-		Request(7);
-
-		return false;
-	});
 });
 
 

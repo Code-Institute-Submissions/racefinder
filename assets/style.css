@@ -13,13 +13,19 @@
 	margin-right: 10px;
 }
 
-#race-data-container {
+
+
+.btn, #race-data-container {
 	font-size: 12px;
 	padding-top: 30px;
 }
 
-img {
+img, #upbutton, #active-logo {
 	border: none;
 	margin:0;
 	padding:0;
+}
+
+#active-logo {
+	height: 25px;
 }
