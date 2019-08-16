@@ -52,7 +52,7 @@ $(document).ready(function(){
 		// var urlstartdate = '&start_date='+$('#startdate').val().slice(6,10)+'-'+$('#startdate').val().slice(0,2)+'-'+$('#startdate').val().slice(3,5)+'..';
 		// var urlenddate = $('#enddate').val().slice(6,10)+'-'+$('#enddate').val().slice(0,2)+'-'+$('#enddate').val().slice(3,5);
 		
-		var urlorder = '&sort=date_asc'; // could be 'date_desc' or 'distance'
+		var urlorder = $('#sortby').val(); // could be 'date_desc' or 'distance'
 		var city = $('#inputcity').val().toLowerCase();
 		var urlplace = '&near=' + city+ ',GB'; // location (city, country)
 		// var urlradius = '&radius=50'; // in miles
@@ -158,7 +158,19 @@ $(document).ready(function(){
 						date = value.salesStartDate.slice(0,10);
 					}
 
-					raceList += `<div class="event-box">`+ date + ` - ` + value.assetName + `</div>`;	
+					// raceList += `<div class="event-box">`+ date + ` - ` + value.assetName + `</div>`;	
+					raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
+					// Error handling for logos
+					+ value.assetName
+					+ ` by ` + value.organization.organizationName
+					+ ` on ` + date 
+					+ ` - <a href="` + value.registrantSearchUrlAdr + `" target=_"blank">Register</a>` 
+					+ ` - <a href="` + value.homePageUrlAdr  + `" target=_"blank">More Info</a>` 
+					// + value.assetDescriptions[0].description 
+
+					+ `</div>`;	
+	
+
 				});
 
 
