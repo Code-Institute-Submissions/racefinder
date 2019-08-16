@@ -5,6 +5,10 @@
 
 }
 
+.row {
+	padding: 5px 5px 5px 5px;
+	margin: 0;
+}
 
 .event-img {
 
@@ -13,10 +17,13 @@
 	margin-right: 10px;
 }
 
-
-
-.btn, #race-data-container {
+.btn {
 	font-size: 12px;
+	padding: 5px 5px 5px 5px;
+}
+
+ #race-data-container {
+	
 	padding-top: 30px;
 }
 
@@ -28,4 +35,23 @@ img, #upbutton, #active-logo {
 
 #active-logo {
 	height: 25px;
+}
+
+.jumbotron {
+    margin: 0px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("background.jpg") ;
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    padding-top:1em;
+    padding-bottom:1em;
+    color: black;
+
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+  display: flex;
+  align-items: center;
+
 }

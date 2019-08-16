@@ -8,6 +8,8 @@ $(document).ready(function(){
 	var resultsperpage  = 10;
 	var city = 'london';
 	var gotopage =	1;
+	var date ="";
+	var organiserurl ="";
 	// defaulted to page one for search results
 
 	$('#gobutton').hide();
@@ -21,8 +23,6 @@ $(document).ready(function(){
 	// http://developer.active.com/docs/read/v2_Activity_API_Search
 	// http://developer.active.com/docs/v2_activity_api_search#ranges
 
-	// Other ideas :
-	// https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
 
 	function URLbuilder(page)
@@ -162,11 +162,12 @@ $(document).ready(function(){
 					+ value.assetName
 					+ ` by ` + value.organization.organizationName
 					+ ` on ` + date 
-					+ ` - <a href="` + value.registrantSearchUrlAdr + `" target=_"blank">Register</a>` 
-					+ ` - <a href="` + value.homePageUrlAdr  + `" target=_"blank">More Info</a>` 
+					// + ` - <a href="` + value.registrantSearchUrlAdr + `" target=_"blank">Register</a>` 
+					// + ` - <a href="` + value.homePageUrlAdr  + `" target=_"blank">More Info</a>` 
 					// + value.assetDescriptions[0].description 
 
-					+ `</div>`;	
+					+ `URL ` + value.homePageUrlAdr 
+					+`</div>`;	
 	
 
 				});
