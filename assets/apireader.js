@@ -93,7 +93,7 @@ $(document).ready(function(){
 	{
 
 		if (numberofpages >0) {
-			$('#race-data-container').append("<br><br><p> Page " + pagenumber + " out of " + numberofpages + "</p>");
+			// $('#race-data-container').append("<br><br><p> Page " + pagenumber + " out of " + numberofpages + "</p>");
 			$('#gobutton').show();
 			$('#pagenumberinput').show();
 			}
@@ -142,7 +142,10 @@ $(document).ready(function(){
 				// number of pages computed based on the above and the 'resultsperpage' var
 				numberofpages = Math.ceil(number_results / resultsperpage);
 				// appending the key numbers with our new results (number of pages and resultsperpage)
-				raceListNumbers += number_results + " | Results per page : " + resultsperpage+  " | Number of pages : " + numberofpages +"</p><br>";
+				raceListNumbers += number_results + " |  Page " + pagenumber + " out of " + numberofpages + "</p><br>";
+
+						
+
 				
 				// Looping through the JSON data in order to create a html string containing the list of races
 				$(data.results).each(function(index, value)
