@@ -32,7 +32,7 @@ Date.prototype.toDateInputValue = (function() {
 
 
 $( function() {
-    var availableTags = [
+    var UKCities = [
 
     "Aberaeron", 
 "Aberdare", 
@@ -1031,8 +1031,8 @@ $( function() {
 
     ];
     
-    $( "#inputcity" ).autocomplete({
-      source: availableTags
+    $("#inputcity").autocomplete({
+      source: UKCities
     });
   } );
 

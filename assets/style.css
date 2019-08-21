@@ -22,9 +22,16 @@
 	padding: 5px 5px 5px 5px;
 }
 
+#top {
+	float:center;
+    padding:3px; 
+    height: 53vh;
+}
+
  #race-data-container {
-	
 	padding-top: 30px;
+	overflow:auto;
+    background:#fff;
 }
 
 #loaderimg {
@@ -47,10 +54,6 @@ img, #upbutton, #active-logo {
 	height: 20px;
 }
 
-#poweredby {
-	text-align: right;
-	font-size: 12px;
-}
 
 .jumbotron {
     margin: 0px;
@@ -71,12 +74,19 @@ img, #upbutton, #active-logo {
   height: 40vh;
 }
 
+#searchbar {	
+	font-size: 12px;
+	font-family: arial;
+
+}
+
 /*CHECKHERE*/
 
 /*.main {
 
 	height: 53vh;  40 vh for jumbotron + 7 vh for footer
 }*/
+
 
 footer {
 	position: relative;
@@ -85,5 +95,14 @@ footer {
   	left: 0;
 	background-color: #505058;
 	color: #fff;
-	height:7vh;
+	height:70px;
+	padding: 0;
+	margin:0;
+}
+
+#poweredby {
+	text-align: right;
+	font-size: 12px;
+	padding: 0;
+	margin:0;
 }

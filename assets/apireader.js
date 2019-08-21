@@ -12,10 +12,14 @@ $(document).ready(function(){
 	var organiserurl ="";
 	// defaulted to page one for search results
 
-	$('#gobutton').hide();
-	$('#pagenumberinput').hide();
-	$('#upbutton').hide();
+	function HideButtons() 
+	{
+		// $('#gobutton').show();
+		// $('#pagenumberinput').show();
+		$('#upbutton').hide();
+	}
 
+	HideButtons();
 	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 	// API key: y3ptgtcc32fd8dcakhcck2c8
 
@@ -83,9 +87,9 @@ $(document).ready(function(){
 		raceList = "<div id=event-list>"; 
 		raceListNumbers ="<p>Number of results : ";
 		number_results = 0;
-		// $('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
+		$('#searchbar').html('<div class="col" id="searchbar"></div>');
+		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
 		
-		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img id="loaderimg" src="https://media.giphy.com/media/3oKGzCvdJbyWsc5Nni/giphy.gif"></div>`);
 
 	}
 
@@ -97,8 +101,8 @@ $(document).ready(function(){
 
 		if (numberofpages >0) {
 			// $('#race-data-container').append("<br><br><p> Page " + pagenumber + " out of " + numberofpages + "</p>");
-			$('#gobutton').show();
-			$('#pagenumberinput').show();
+			// $('#gobutton').show();
+			// $('#pagenumberinput').show();
 			}
 		}
 		
@@ -145,9 +149,25 @@ $(document).ready(function(){
 				// number of pages computed based on the above and the 'resultsperpage' var
 				numberofpages = Math.ceil(number_results / resultsperpage);
 				// appending the key numbers with our new results (number of pages and resultsperpage)
-				raceListNumbers += number_results + " |  Page " + pagenumber + " out of " + numberofpages + "</p><br>";
+				raceListNumbers += number_results + ` |  Page <select id="pagenumberinput">`;
 
-						
+				for (let i=1; i<=numberofpages;i++)
+				{
+					if (i==pagenumber) 
+					{
+					 raceListNumbers += `<option selected='selected' value='`+i+`'>`+i+`</option>`;
+					 console.log('selected page in dropdown is:');
+					 console.log(i);
+
+					} else {
+
+					raceListNumbers += `<option value='`+i+`'>`+i+`</option>`;
+
+					}
+				}
+
+				
+				raceListNumbers += `</select>  out of ` + numberofpages ;
 
 				
 				// Looping through the JSON data in order to create a html string containing the list of races
@@ -190,8 +210,8 @@ $(document).ready(function(){
 
 				// Append all the info collected and formatted to the html document
 
-					$('#race-data-container').html(raceListNumbers);
-					$('#race-data-container').append(raceList);
+					$('#searchbar').html(raceListNumbers);
+					$('#race-data-container').html(raceList);
 					
 				// CHECKHERE
 					// $('.main').css({ 'height' : ''});
@@ -232,8 +252,7 @@ $(document).ready(function(){
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
 		
-			$('#gobutton').hide();
-			$('#pagenumberinput').hide();
+		HideButtons();
 	
 		Request(1);
 		return false;
@@ -255,27 +274,35 @@ $(document).ready(function(){
 		$('#race-data-container').html(`<span> Please enter details and hit "Search" </span>`);
 		//Giving user suggestions
 
-
-		$('#gobutton').hide();
-		$('#pagenumberinput').hide();
-		$('#upbutton').hide();
-	
+		HideButtons ();
 
 		return false;
 	});
 
-// clicking on the Go button
-	$("#gobutton").click(function(e)
+// clicking on page number selector
+// helped by this article on SOF : https://stackoverflow.com/questions/15420558/jquery-click-event-not-working-after-append-method
+	$("#searchbar").on('change','#pagenumberinput', function(e)
 	{
-		e.preventDefault(); 
+		// e.preventDefault(); 
 
 		// same comments as for the Search button
 
 		var gotopage_click = $('#pagenumberinput').val();
+		console.log('Going to page :');
 		console.log(gotopage_click);
 		Request(gotopage_click);
-		return false;
+		// return false;
 	});
+
+	// $("#filters").on('change','#resultperpage', function(e)
+	// {
+
+	// 	// same functionality as for the Search button
+
+	// 	HideButtons();
+	// 	Request(1);
+
+	// });
 
 });
 
