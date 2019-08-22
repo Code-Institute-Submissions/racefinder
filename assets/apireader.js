@@ -10,13 +10,15 @@ $(document).ready(function(){
 	var gotopage =	1;
 	var date ="";
 	var organiserurl ="";
+
+	var footerRepeat =`<div class="row" id='footer'><div class="col"><button class="btn" id="upbutton"><a href="#jumbotron">Back to Top<a/></button></div></div>`
 	// defaulted to page one for search results
 
 	function HideButtons() 
 	{
 		// $('#gobutton').show();
 		// $('#pagenumberinput').show();
-		$('#upbutton').hide();
+		// $('#upbutton').hide();
 	}
 
 	HideButtons();
@@ -150,17 +152,18 @@ $(document).ready(function(){
 				numberofpages = Math.ceil(number_results / resultsperpage);
 				// appending the key numbers with our new results (number of pages and resultsperpage)
 				raceListNumbers += number_results + ` |  Page <select id="pagenumberinput">`;
-
+				// creating the dropdown menu
 				for (let i=1; i<=numberofpages;i++)
 				{
 					if (i==pagenumber) 
-					{
+					{ 
+					// select the current page in the dropdown for a better UX
 					 raceListNumbers += `<option selected='selected' value='`+i+`'>`+i+`</option>`;
 					 console.log('selected page in dropdown is:');
 					 console.log(i);
 
 					} else {
-
+					// otherwise just add the pages in standard options 
 					raceListNumbers += `<option value='`+i+`'>`+i+`</option>`;
 
 					}
@@ -212,6 +215,8 @@ $(document).ready(function(){
 
 					$('#searchbar').html(raceListNumbers);
 					$('#race-data-container').html(raceList);
+					$('#race-data-container').append(footerRepeat);
+
 					
 				// CHECKHERE
 					// $('.main').css({ 'height' : ''});

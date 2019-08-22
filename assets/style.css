@@ -28,10 +28,11 @@
     height: 53vh;
 }
 
- #race-data-container {
-	padding-top: 30px;
+ #main-container {
+/*	padding-top: 30px;
 	overflow:auto;
     background:#fff;
+*/    min-height: calc(100vh-300px)
 }
 
 #loaderimg {
@@ -44,14 +45,22 @@
 
 }
 
-img, #upbutton, #active-logo {
+img, #upbutton, #logo {
 	border: none;
 	margin:0;
 	padding:0;
 }
 
-#active-logo {
+#logo {
 	height: 20px;
+}
+
+.rightfilter {
+	text-align: : left;
+}
+
+.leftfilter {
+	text-align: right;
 }
 
 
@@ -71,7 +80,7 @@ img, #upbutton, #active-logo {
       -o-background-size: cover;
   display: flex;
   align-items: center;
-  height: 40vh;
+  height: 350px;
 }
 
 #searchbar {	
@@ -88,7 +97,7 @@ img, #upbutton, #active-logo {
 }*/
 
 
-footer {
+#footer {
 	position: relative;
   	right: 0;
   	bottom: 0;
