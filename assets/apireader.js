@@ -63,7 +63,9 @@ $(document).ready(function(){
 		// var urlradius = '&radius=50'; // in miles
 		var urlradius = '&radius='+$('#radius').val(); // in miles
 
-		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
+		// var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
+		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8x';
+
 
 		urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlenddate + urlorder + urlplace + urlradius + apikey;
 
@@ -139,7 +141,13 @@ $(document).ready(function(){
 
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
-	            $('#race-data-container').append('<p><span>API Error, please contact the dev Raph Zenou and quote these details:<br>Status code: '+jqXHR.status+' | ' + errorThrown + ' | '+ jqXHR.responseText + '</span></p>');
+				var errormessage = jqXHR.responseText.replace('<h1>','').replace('</h1>','');
+				// inspired by https://stackoverflow.com/questions/5825465/why-is-jqxhr-responsetext-returning-a-string-instead-of-a-json-object
+				// and also https://stackoverflow.com/questions/16576983/replace-multiple-characters-in-one-replace-call
+				// this is all to get a nice an clean error message which does not mess with the css as withtout this jqXHR.responseText is return as a h1 tag
+				console.log(errormessage);
+	            $('#race-data-container').html('<p id="message">Error, please contact the dev <a href="mailto:ultraphael@gmail.com">Raph Zenou</a> and quote these technical details:<br>Status code: '+ jqXHR.status +' | ' + errorThrown + ' | '+ errormessage + '</p>');
+
 	        },
 
 			success : function(data) 
@@ -208,7 +216,7 @@ $(document).ready(function(){
 				// 2nd type of error handling in case of no results available for the details entered in case of a succesful API call
 
 				if (number_results === 0 ) { 
-					$('#race-data-container').html(`<p id="welcome"> Oops!There were no results with these filters, please try again!</p>`);
+					$('#race-data-container').html(`<p id="messsage"> Oops!There were no results with these filters, please try again!</p>`);
 				} else { 
 
 				// Append all the info collected and formatted to the html document
@@ -276,7 +284,7 @@ $(document).ready(function(){
 		//Initialising
 		gotopage =1;
 
-		$('#race-data-container').html(`<span> Please enter details and hit "Search" </span>`);
+		$('#race-data-container').html(`<p id="message"> Please enter details and hit "Search" </p>`);
 		//Giving user suggestions
 
 		HideButtons ();

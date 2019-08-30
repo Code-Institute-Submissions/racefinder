@@ -6,7 +6,7 @@
 
 
 .row {
-	padding: 5px 5px 5px 5px;
+	padding: 0;
 	margin: 0;
 }
 
@@ -44,7 +44,7 @@
 	max-width: 15vw;
 	filter: grayscale(100%);
 }
-#welcome, #loader {
+#errormessage, #message, #loader {
 	font-size: 20px;
 	text-align: center;
 
