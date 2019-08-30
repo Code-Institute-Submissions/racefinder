@@ -28,11 +28,16 @@
     height: 53vh;
 }
 
+.container-fluid {
+	padding: 0;
+}
  #main-container {
+}
 /*	padding-top: 30px;
 	overflow:auto;
     background:#fff;
 */    min-height: calc(100vh-300px)
+	padding: 0;
 }
 
 #loaderimg {

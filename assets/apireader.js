@@ -11,7 +11,7 @@ $(document).ready(function(){
 	var date ="";
 	var organiserurl ="";
 
-	var footerRepeat =`<div class="row" id='footer'><div class="col"><button class="btn" id="upbutton"><a href="#jumbotron">Back to Top<a/></button></div></div>`
+	var footerRepeat =`<div class="row" id='footer'><div class="col"><a href="#jumbotron" id="upbutton">Back to Top<a/></div></div>`
 	// defaulted to page one for search results
 
 	function HideButtons() 
@@ -208,7 +208,7 @@ $(document).ready(function(){
 				// 2nd type of error handling in case of no results available for the details entered in case of a succesful API call
 
 				if (number_results === 0 ) { 
-					$('#race-data-container').html(`<p id="welcome"> API responded succesfully but there were no results with these filters, please try again!</p>`);
+					$('#race-data-container').html(`<p id="welcome"> Oops!There were no results with these filters, please try again!</p>`);
 				} else { 
 
 				// Append all the info collected and formatted to the html document
