@@ -1,27 +1,11 @@
 $(document).ready(function(){ 
 // making sure the document is fully loaded especially regarding the form
 
-	// Initiliasing variables
-	var raceList = "<p><ul>"; 
-	var raceListNumbers ="<p>Number of results : ";
-	var number_results = 0;
-	var resultsperpage  = 10;
-	var city = 'london';
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INITIALISING VARIABLES + KEY LINKS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 	var gotopage =	1;
-	var date ="";
-	var organiserurl ="";
-
-	var footerRepeat =`<div class="row" id='footer'><div class="col"><a href="#jumbotron" id="upbutton">Back to Top<a/></div></div>`
 	// defaulted to page one for search results
 
-	function HideButtons() 
-	{
-		// $('#gobutton').show();
-		// $('#pagenumberinput').show();
-		// $('#upbutton').hide();
-	}
-
-	HideButtons();
 	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
 	// API key: y3ptgtcc32fd8dcakhcck2c8
 
@@ -30,102 +14,75 @@ $(document).ready(function(){
 	// http://developer.active.com/docs/v2_activity_api_search#ranges
 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ API URL BUILDER FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	function URLbuilder(page)
-	{
+
+	function URLbuilder(page) {
 
 		console.log('URL builder function called');
-		// url has been modified to fix a CORS Error :
+
+
+	// ••••••••••• BASE URL AND API •••••••••••
+
+
+		// url has been modified to fix a CORS Error (see below var corsfix)
 		// https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
-		// https://cors-anywhere.herokuapp.com/
+		var corsfix = 'https://cors-anywhere.herokuapp.com/' // quick fix provided by this website
+		var urlbase ='http://api.amp.active.com/v2/search?query=running&category=event'; //scope is running only in this project
+		// API key provided by ACTIVE.com after signing up on http://developer.active.com/apis
+		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
 
-		var urlcomplete = "";
-		var urlbase ='https://cors-anywhere.herokuapp.com/http://api.amp.active.com/v2/search?query=running&category=event';
-		var number_results = 0;
 
-		var pagenumber = page;
-		//defaulted to 1
+	// ••••••••••• PAGES PARAMETERS •••••••••••
+
+		var pagenumber = page; //function sole parameter stored in the following variable
 		var urlpage = '&current_page='+pagenumber;
-		resultsperpage = $('#resultperpage').val();
-		// parseInto to make sure any string input could potentially be used
-
+		var resultsperpage = $('#resultperpage').val(); //input by user
 		var urlresultperpage = '&per_page='+resultsperpage;
-		var numberofpages = 0;
 
-		var urlstartdate = '&start_date='+$('#startdate').val()+'..';
+
+	// ••••••••••• OTHER USER FILTERS •••••••••••
+
+
+		var urlstartdate = '&start_date='+$('#startdate').val()+'..'; 
 		var urlenddate = $('#enddate').val();
-		// var urlstartdate = '&start_date='+$('#startdate').val().slice(6,10)+'-'+$('#startdate').val().slice(0,2)+'-'+$('#startdate').val().slice(3,5)+'..';
-		// var urlenddate = $('#enddate').val().slice(6,10)+'-'+$('#enddate').val().slice(0,2)+'-'+$('#enddate').val().slice(3,5);
-		
-		var urlorder = $('#sortby').val(); // could be 'date_desc' or 'distance'
-		var city = $('#inputcity').val().toLowerCase();
-		var urlplace = '&near=' + city+ ',GB'; // location (city, country)
-		// var urlradius = '&radius=50'; // in miles
-		var urlradius = '&radius='+$('#radius').val(); // in miles
 
-		// var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
-		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8x';
+		var urlorder = $('#sortby').val(); // could be 'date_asc', date_desc' or 'distance'
+		var city = $('#inputcity').val().toLowerCase(); //city input by user, default is London
+		var urlplace = '&near=' + city+ ',GB'; // GB hardcoded as we only want UK races in this project
+		var urlradius = '&radius='+$('#radius').val(); // radius from city in miles
 
 
-		urlcomplete = urlbase + urlpage + urlresultperpage + urlstartdate + urlenddate + urlorder + urlplace + urlradius + apikey;
+	// ••••••••••• URL ASSEMBLING •••••••••••
 
-		console.log('Results per page:');
-		console.log(resultsperpage);
-		console.log('Page number:');
-		console.log(pagenumber);
-		console.log('URL:');
-		console.log(urlcomplete);
-		console.log('Start:');
-		console.log(urlstartdate);
-		console.log('End:');
-		console.log(urlenddate);
-
-
-
-		return [urlcomplete, resultsperpage, pagenumber];
+		var urlcomplete = corsfix + urlbase + urlpage + urlresultperpage + urlstartdate + urlenddate + urlorder + urlplace + urlradius + apikey;
+		return [urlcomplete, resultsperpage, pagenumber]; // array type of return
 	}
 
-// Function to refresh the data to zero when a new request is submitted or when the page is cleared
-	function Initialise() 
-	{
-		raceList = "<div id=event-list>"; 
-		raceListNumbers ="<p>Number of results : ";
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INITIALISE FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+	// Function to refresh the data to zero when a new request is submitted or when the page is cleared
+	function Initialise() {
+		// var raceList = "<div id=event-list>"; 
+		// var raceListNumbers ="";
+
 		number_results = 0;
+
+		$('#resultscount').html('<div class="col" id="resultscount"></div>');
 		$('#searchbar').html('<div class="col" id="searchbar"></div>');
 		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
-		
-
 	}
 
 	// Using AJAX method instead of getJSON to have a bit more control 
 	// https://www.youtube.com/watch?v=j-S5MBs4y0Q
 
-	function DisplayPages(pagenumber, numberofpages)
-	{
 
-		if (numberofpages >0) {
-			// $('#race-data-container').append("<br><br><p> Page " + pagenumber + " out of " + numberofpages + "</p>");
-			// $('#gobutton').show();
-			// $('#pagenumberinput').show();
-			}
-		}
-		
-		// if (pagenumber === 1) {$('#race-data-container')
-		// 	.append('<a id="linkpage" href="#">LINK</a>');
-
-		// } else if (pagenumber == numberofpages)  { // not === because of the imperfect math.ceil result
-
-		// $('#race-data-container').append("<p>" + pagenumber + " ..." + numberofpages + " Last</p>");
-
-		// } else {
-
-		// $('#race-data-container').append("<p> In between " + pagenumber + " and " + numberofpages + "</p>");
-		// }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ API REQUEST FUNCTION (MAIN FUNCTION) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
-	function NewRequest(urlapi, resultsperpage, pagenumber)
-	{
+	function NewRequest(urlapi, resultsperpage, pagenumber){
 
 		// doc https://api.jquery.com/jquery.ajax/
 		// standard ajax request
@@ -145,21 +102,25 @@ $(document).ready(function(){
 				// inspired by https://stackoverflow.com/questions/5825465/why-is-jqxhr-responsetext-returning-a-string-instead-of-a-json-object
 				// and also https://stackoverflow.com/questions/16576983/replace-multiple-characters-in-one-replace-call
 				// this is all to get a nice an clean error message which does not mess with the css as withtout this jqXHR.responseText is return as a h1 tag
-				console.log(errormessage);
+
 	            $('#race-data-container').html('<p id="message">Error, please contact the dev <a href="mailto:ultraphael@gmail.com">Raph Zenou</a> and quote these technical details:<br>Status code: '+ jqXHR.status +' | ' + errorThrown + ' | '+ errormessage + '</p>');
 
 	        },
 
 			success : function(data) 
 			{
-				console.log('4 - starting the API parsing');
+				console.log('API Call successful, starting the parsing and html building...');
+
+	// ••••••••••• BUILDING THE PAGE NAVIGATION •••••••••••
+
 
 				// extraction of number of results from the API response
-				number_results = data.total_results;
+				var number_results = data.total_results;
 				// number of pages computed based on the above and the 'resultsperpage' var
-				numberofpages = Math.ceil(number_results / resultsperpage);
-				// appending the key numbers with our new results (number of pages and resultsperpage)
-				raceListNumbers += number_results + ` |  Page <select id="pagenumberinput">`;
+				var numberofpages = Math.ceil(number_results / resultsperpage);
+				// appending the key numbers and page navigation with our new results (number of pages and resultsperpage)
+				var raceListResults = `<div>Number of results : ` + number_results +`</div>`;
+				var raceListNumbers = `Page <select id="pagenumberinput">`;
 				// creating the dropdown menu
 				for (let i=1; i<=numberofpages;i++)
 				{
@@ -177,14 +138,18 @@ $(document).ready(function(){
 					}
 				}
 
-				
-				raceListNumbers += `</select>  out of ` + numberofpages ;
+			
+				raceListNumbers += `</select>  out of ` + numberofpages + ` | <a href="#jumbotron" id="upbutton">Back to Top<a/></div>`;
 
+
+
+
+	// ••••••••••• BUILDING THE RACES LIST /  RESULTS •••••••••••
 				
+				var raceList = '<div id="racelist">'; 
+
 				// Looping through the JSON data in order to create a html string containing the list of races
-				$(data.results).each(function(index, value)
-
-				{
+				$(data.results).each(function(index, value){
 					// sometimes the API data returns null on the date so this is to avoid getting an error 
 					if(value.salesStartDate==null) 
 					{
@@ -193,9 +158,10 @@ $(document).ready(function(){
 						date = value.salesStartDate.slice(0,10);
 					}
 
-					// raceList += `<div class="event-box">`+ date + ` - ` + value.assetName + `</div>`;	
-					raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
-					// Error handling for logos
+					raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr
+					+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
+					// Error handling for race logos not provided by the API 
+					
 					+ value.assetName
 					+ ` by ` + value.organization.organizationName
 					+ ` on ` + date 
@@ -209,93 +175,96 @@ $(document).ready(function(){
 
 				});
 
-
 				// closing the html unordered list
-				raceList += "</div>";
+				raceList += '</div>';
+
+
+
+// ••••••••••• APPENDING THE HTML TO ADD RESULTS AND NAVIGATION •••••••••••
+
 
 				// 2nd type of error handling in case of no results available for the details entered in case of a succesful API call
 
 				if (number_results === 0 ) { 
-					$('#race-data-container').html(`<p id="messsage"> Oops!There were no results with these filters, please try again!</p>`);
+					$('#race-data-container').html(`<p id="message"> Oops!There were no results with these filters, please try again! <br><br>Have you made sure the City is in the UK or dates are in the right order for instance ? </p>`);
+				
 				} else { 
 
 				// Append all the info collected and formatted to the html document
-
-					$('#searchbar').html(raceListNumbers);
+					$('#resultscount').html(raceListResults);
 					$('#race-data-container').html(raceList);
-					$('#race-data-container').append(footerRepeat);
+					$('#searchbar').html(raceListNumbers);
 
-					
-				// CHECKHERE
-					// $('.main').css({ 'height' : ''});
-					// $('footer').css({'position': 'absolute'});
-				
 
-					if(resultsperpage >= 20) 
-					{
-						$('#upbutton').show();
-					} else {
-						$('#upbutton').hide();
-					}
-					console.log('5 - API Parsing and results populating done');
+
 				}
+			console.log('API Parsing and results populating done');
 
-			DisplayPages(pagenumber, numberofpages);
 
 			}
 		});
 	}
 
-	function Request(gotopage) 
-	{
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REQUEST FUNCTION CALLING THE ONES ABOVE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+	function Request(gotopage) {
 		Initialise();
+
 		var parameters = URLbuilder(gotopage);
 		// fetching data from the URLbuilder function that uses the user input using page 1 as the default page and unique parameter
         //other parameters are taken from the user's input
+
 		NewRequest(parameters[0], parameters[1], parameters[2]);
 		// sending the request with the correct data coming from the URLBuilder 'return' which is an array of 3 elements 
 		// that we called stored in the 'parameters' variable
 	}
 
-// clicking on the Search button
-	$("#searchbutton").click( function(e)
-	{
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BUTTONS / NAVIGATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// ••••••••••• SEARCH BUTTON •••••••••••
+
+	$("#searchbutton").click( function(e){
 
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-		
-		HideButtons();
-	
 		Request(1);
 		return false;
 	});
 
-// clicking on the Clear button
-	$("#clearbutton").click(function(e)
-	{
+// ••••••••••• CLEAR BUTTON •••••••••••
+
+	$("#clearbutton").click(function(e){
 
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
 		console.log('...Clearing');
 
+		$("#startdate").val(new Date().toDateInputValue());
+  		$("#enddate").val(new Date().toDateInputValue());
+  		$("#inputcity").val("London")
+
 		Initialise();
 		//Initialising
 		gotopage =1;
 
-		$('#race-data-container').html(`<p id="message"> Please enter details and hit "Search" </p>`);
+		$('#race-data-container').html(`<p id="message">Please adjust your filters above and hit Search again!</p>`);
 		//Giving user suggestions
 
-		HideButtons ();
 
 		return false;
 	});
 
+
+// ••••••••••• PAGE NAVIGATION DROPDOWN MENU •••••••••••
+
 // clicking on page number selector
 // helped by this article on SOF : https://stackoverflow.com/questions/15420558/jquery-click-event-not-working-after-append-method
-	$("#searchbar").on('change','#pagenumberinput', function(e)
-	{
+	$("#searchbar").on('change','#pagenumberinput', function(e){
 		// e.preventDefault(); 
 
 		// same comments as for the Search button
@@ -307,17 +276,9 @@ $(document).ready(function(){
 		// return false;
 	});
 
-	// $("#filters").on('change','#resultperpage', function(e)
-	// {
 
-	// 	// same functionality as for the Search button
 
-	// 	HideButtons();
-	// 	Request(1);
-
-	// });
-
-});
+});// closing $(document).ready(function(){ 
 
 
 
