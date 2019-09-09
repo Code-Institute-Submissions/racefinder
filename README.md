@@ -42,6 +42,9 @@ In this section, you should mention all of the languages, frameworks, libraries,
 
 ## Testing
 
+- API Data Quality : 
+	It is important to focus here on the code and UX as unfortunately the quality of the API output is sometimes pretty bad and inconsistent.
+	For example some races will have a link, some others won't. 
 
 - Manual Testing:
 
@@ -87,7 +90,9 @@ In this section, you should mention all of the languages, frameworks, libraries,
 	
 	Various screen sizes have been tested thanks to the built in Google Chrome developer tools but also by using my own mobile (Samsung S8). Thanks to the use of Bootstrap it is all looking OK on computer, mobile or tablet with various resolutions.
 
-
+- Only error message in the console: "hotrace.gif:1 GET http://www.active.com/images/events/hotrace.gif 502 (Bad Gateway)"
+	It appears for results (races) that have no logo provided (logoUrlAdr: "http://www.active.com/images/events/hotrace.gif")
+	This error is not fixable by myself (only the API owner) and does not prevent the app from functioning well as the error is managed and the logo replaced by a default.
 
 ## Deployment
 

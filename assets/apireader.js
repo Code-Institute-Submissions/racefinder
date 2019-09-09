@@ -24,7 +24,7 @@ $(document).ready(function(){
 		// url has been modified to fix a CORS Error (see below var corsfix)
 		// https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 		var corsfix = 'https://cors-anywhere.herokuapp.com/' // quick fix provided by this website
-		var urlbase ='http://api.amp.active.com/v2/search?query=running&category=event'; //scope is running only in this project
+		var urlbase ='http://api.amp.active.com/v2/search?category=event&topic=running'; //  scope is running only in this project
 		// API key provided by ACTIVE.com after signing up on http://developer.active.com/apis
 		var apikey = '&api_key=y3ptgtcc32fd8dcakhcck2c8';
 
@@ -116,6 +116,7 @@ $(document).ready(function(){
 			success : function(data) 
 			{
 				console.log('API Call successful, starting the parsing and html building...');
+				console.table(data);
 
 	// ••••••••••• BUILDING THE PAGE NAVIGATION •••••••••••
 
@@ -125,10 +126,9 @@ $(document).ready(function(){
 				// number of pages computed based on the above and the 'resultsperpage' var
 				var numberofpages = Math.ceil(number_results / resultsperpage);
 				// appending the key numbers and page navigation with our new results (number of pages and resultsperpage)
-				var raceListResults = `<div>Number of results : ` + number_results +`</div>`;
-				
+			
 				// creating the dropdown navigation menu
-				var raceListNumbers = `Page <select id="pagenumberinput">`;
+				var raceListNumbers = `Number of results : ` + number_results + ` | Page <select id="pagenumberinput">`;
 				
 				for (let i=1; i<=numberofpages;i++)
 				{
@@ -157,31 +157,64 @@ $(document).ready(function(){
 				// Looping through the JSON data in order to create a html string containing the list of races
 				$(data.results).each(function(index, value){
 					// sometimes the API data returns null on the date so this is to avoid getting an error 
-					if(value.salesStartDate==null) 
-					{
-						date = 'TBD';
-					} else {
-						date = value.salesStartDate.slice(0,10);
-					}
-
-					raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr
-					+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
-					// Error handling for race logos not provided by the API 
 					
-					+ value.assetName
-					+ ` by ` + value.organization.organizationName
-					+ ` on ` + date 
-					// + ` - <a href="` + value.registrantSearchUrlAdr + `" target=_"blank">Register</a>` 
-					// + ` - <a href="` + value.homePageUrlAdr  + `" target=_"blank">More Info</a>` 
-					// + value.assetDescriptions[0].description 
+					// Making sure we are displaying an active event 
 
-					+ `URL ` + value.homePageUrlAdr 
-					+`</div>`;	
-	
+					if (value.assetStatus.assetStatusName=="VISIBLE") {
+
+						// First let's sort the date out (it is given D-1 by the API)
+					
+						var date = new Date(value.activityStartDate.slice(0,10));
+						date.setDate(date.getDate()+1);
+						date = date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear();
+
+						// Second let's find a working link (loads are given empty by the API.)
+						var url="";
+
+						if (value.urlAdr!=="") {
+							url = value.urlAdr;
+						 } else if (value.registrantSearchUrlAdr!=="") {
+						 	url = value.registrantSearchUrlAdr;
+						 } else if (value.homePageUrlAdr!=="") {
+						 	url = value.homePageUrlAdr;
+						 } else {
+						 	// fall back in case of not a single link is provided 
+						 	url = `http://www.google.com/search?q=` + value.assetName
+						 }
+							
+							
+						// now let's build the list ! 
+
+						raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr
+						+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
+						+ date + ` - `
+						// Error handling for race logos not provided by the API 
+						
+						+ value.assetName
+						+ ` by/for ` + value.organization.organizationName
+						// + ` - <a href="` + value.registrantSearchUrlAdr + `" target="_blank">Register</a>`
+						+ ` - <a href="` + url + `" target="_blank">More Info</a>`
+			
+
+
+
+						// if(value.registrantSearchUrlAdr !==null) 
+						// {
+						// + ` - <a href="` + value.registrantSearchUrlAdr + `" target="_blank">Register</a>`
+						// }
+
+						// if(value.homePageUrlAdr !==null) 
+						// {
+						// + ` - <a href="` + value.homePageUrlAdr  + `" target="_blank">More Info</a>`
+						// }
+						
+						+ ` - <a href="https://www.google.co.uk/maps/search/` +  value.place.postalCode+ `" target="_blank">Map</a>` 
+						+`</div>`;	
+					}
 
 				});
 
-				// closing the html unordered list
+				// closing the race list div
 				raceList += '</div>';
 
 
@@ -197,7 +230,7 @@ $(document).ready(function(){
 				} else { 
 
 				// Append all the info collected and formatted to the html document
-					$('#resultscount').html(raceListResults);
+					
 					$('#race-data-container').html(raceList);
 					$('#navigation').html(raceListNumbers);
 					$('#footerbeforesearch').hide();
@@ -249,11 +282,7 @@ $(document).ready(function(){
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-		console.log('...Clearing');
-
-		$("#startdate").val(new Date().toDateInputValue());
-  		$("#enddate").val(new Date().toDateInputValue());
-  		$("#inputcity").val("London")
+		console.log('...Clearing values');
 
 		Initialise();
 		//Initialising

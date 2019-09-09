@@ -61,9 +61,10 @@ html, body  {
 .event-box {
 	text-align: left;
 	background: none;
-	padding: 5px 5px 5px 30px;
-	border: 2px;
-}
+	padding: 10px 10px 10px 10px;
+	border: none;
+		
+	}
 
 
 .event-img {
@@ -129,8 +130,6 @@ html, body  {
 
 }
 
-
-
 }
 #errormessage, #message, #loader {
 	margin: 30px 0 0 0;
@@ -139,6 +138,21 @@ html, body  {
 
 }
 
+
+
+#logo {
+	height: 20px;
+}
+
+}
+
+#searchbar {	
+	font-size: 12px;
+	font-family: arial;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOOTER */
+
+
 img, #upbutton, #logo {
 	border: none;
 	margin:0;
@@ -146,26 +160,9 @@ img, #upbutton, #logo {
 	color: #fff;
 }
 
-#logo {
-	height: 20px;
-}
-
-
-
-
-
-}
-
-#searchbar {	
-	font-size: 12px;
-	font-family: arial;
-
-}
-
-
 #poweredby {
 	text-align: right;
 	font-size: 12px;
-	padding: 10px 0 0 0;
+	padding: 10px 0 10px 0;
 	margin:0;
 }
