@@ -95,12 +95,16 @@ $(document).ready(function(){
 
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
-				var errormessage = jqXHR.responseText.replace('<h1>','').replace('</h1>','');
+				
 				// inspired by https://stackoverflow.com/questions/5825465/why-is-jqxhr-responsetext-returning-a-string-instead-of-a-json-object
 				// and also https://stackoverflow.com/questions/16576983/replace-multiple-characters-in-one-replace-call
 				// this is all to get a nice an clean error message which does not mess with the css as withtout this jqXHR.responseText is return as a h1 tag
 
-	            $('#race-data-container').html('<p id="message">Error, please contact the dev <a href="mailto:ultraphael@gmail.com">Raph Zenou</a> and quote these technical details:<br>Status code: '+ jqXHR.status +' | ' + errorThrown + ' | '+ errormessage + '</p>');
+	            $('#race-data-container').html('<p id="message">Error, please select other details an try again but if it persists please contact the dev <a href="mailto:ultraphael@gmail.com">Raph Zenou</a> and quote these technical details:<br>Status code: '+ jqXHR.status +' | ' + errorThrown + '</p>');
+
+	            // for more details on the error messages we can use :
+	            // var errormessage = jqXHR.responseText.replace('<h1>','').replace('</h1>','');
+	            // I decided to remove it at it was too technical for the average user
 
 	        },
 
