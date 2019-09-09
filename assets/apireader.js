@@ -4,11 +4,6 @@ $(document).ready(function(){
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INITIALISING VARIABLES + KEY LINKS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	var gotopage =	1;
-	// defaulted to page one for search results
-
-	// http://api.amp.active.com/v2/search?query=running&category=event&start_date=2013-07-04..&near=San%20Diego,CA,US&radius=50&api_key=y3ptgtcc32fd8dcakhcck2c8
-	// API key: y3ptgtcc32fd8dcakhcck2c8
-
 	// API documentation : 
 	// http://developer.active.com/docs/read/v2_Activity_API_Search
 	// http://developer.active.com/docs/v2_activity_api_search#ranges
@@ -65,22 +60,24 @@ $(document).ready(function(){
 
 	// Function to refresh the data to zero when a new request is submitted or when the page is cleared
 	function Initialise() {
-		// var raceList = "<div id=event-list>"; 
-		// var raceListNumbers ="";
+	
 
 		number_results = 0;
 
 		$('#resultscount').html('<div class="col" id="resultscount"></div>');
 		$('#searchbar').html('<div class="col" id="searchbar"></div>');
 		$('#race-data-container').html(`<div class="container-fluid" id="loader"><img src="assets/loader.gif"></div>`);
+		// loader GIF makes the loading time much more tolerable in case of a slow response (asynchronicity and callbacks/promises).
 	}
 
-	// Using AJAX method instead of getJSON to have a bit more control 
-	// https://www.youtube.com/watch?v=j-S5MBs4y0Q
+
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ API REQUEST FUNCTION (MAIN FUNCTION) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+	// Using AJAX method instead of getJSON to have a bit more control 
+	// https://www.youtube.com/watch?v=j-S5MBs4y0Q
 
 	function NewRequest(urlapi, resultsperpage, pagenumber){
 

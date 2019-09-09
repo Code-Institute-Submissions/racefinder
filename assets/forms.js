@@ -28,7 +28,7 @@ Date.prototype.toDateInputValue = (function() {
 
 
 // https://jqueryui.com/autocomplete/#default
-
+// see at the bottom for the autocomplete function
 
 
 $( function() {
