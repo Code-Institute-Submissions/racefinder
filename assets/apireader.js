@@ -185,15 +185,15 @@ $(document).ready(function(){
 							
 						// now let's build the list ! 
 
-						raceList += `<div class="event-box"><img class="event-img" src="`+value.logoUrlAdr
+						raceList += `<div class="row event-box"><div class="col"><img class="event-img" src="`+value.logoUrlAdr
 						+`" onError="this.onerror=null;this.src='https://image.freepik.com/free-icon/running-man_318-1564.jpg';"/>`
-						+ date + ` - `
+						+ date + `</div><div class="col">`
 						// Error handling for race logos not provided by the API 
 						
 						+ value.assetName
-						+ ` by/for ` + value.organization.organizationName
+						+ `by/for ` + value.organization.organizationName
 						// + ` - <a href="` + value.registrantSearchUrlAdr + `" target="_blank">Register</a>`
-						+ ` - <a href="` + url + `" target="_blank">More Info</a>`
+						+ `</div><div class="col"> - <a href="` + url + `" target="_blank">More Info</a></div>`
 			
 
 
@@ -235,6 +235,8 @@ $(document).ready(function(){
 					$('#navigation').html(raceListNumbers);
 					$('#footerbeforesearch').hide();
 					$('#footerpostsearch').show();
+					// these two footers above come from the fact that when I added html to the main container the basic footer was not moving down properly
+					// this is probably not the best fix but it works and provides a good UX 
 
 
 				}
@@ -282,7 +284,7 @@ $(document).ready(function(){
 		e.preventDefault(); 
 		// to avoid page refresh on click
 		// courtesy of https://stackoverflow.com/questions/33465557/how-to-stop-page-reload-on-button-click-jquery
-		console.log('...Clearing values');
+		console.log('...Clearing values (not parameters');
 
 		Initialise();
 		//Initialising
