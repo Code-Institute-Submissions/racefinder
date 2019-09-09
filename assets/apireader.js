@@ -126,16 +126,16 @@ $(document).ready(function(){
 				var numberofpages = Math.ceil(number_results / resultsperpage);
 				// appending the key numbers and page navigation with our new results (number of pages and resultsperpage)
 				var raceListResults = `<div>Number of results : ` + number_results +`</div>`;
+				
+				// creating the dropdown navigation menu
 				var raceListNumbers = `Page <select id="pagenumberinput">`;
-				// creating the dropdown menu
+				
 				for (let i=1; i<=numberofpages;i++)
 				{
 					if (i==pagenumber) 
 					{ 
 					// select the current page in the dropdown for a better UX
 					 raceListNumbers += `<option selected='selected' value='`+i+`'>`+i+`</option>`;
-					 console.log('selected page in dropdown is:');
-					 console.log(i);
 
 					} else {
 					// otherwise just add the pages in standard options 
@@ -199,7 +199,7 @@ $(document).ready(function(){
 				// Append all the info collected and formatted to the html document
 					$('#resultscount').html(raceListResults);
 					$('#race-data-container').html(raceList);
-					$('#footerpostsearch').html(`<div class="col" id="poweredby">Powered by <a href="http://developer.active.com/apis" target="_blank"><img id="logo"src="assets/active-logo-white.png"></a></div><div>`+ raceListNumbers + `</div>`);
+					$('#navigation').html(raceListNumbers);
 					$('#footerbeforesearch').hide();
 					$('#footerpostsearch').show();
 
@@ -271,7 +271,7 @@ $(document).ready(function(){
 
 // clicking on page number selector
 // helped by this article on SOF : https://stackoverflow.com/questions/15420558/jquery-click-event-not-working-after-append-method
-	$("#searchbar").on('change','#pagenumberinput', function(e){
+	$("#navigation").on('change','#pagenumberinput', function(e){
 		// e.preventDefault(); 
 
 		// same comments as for the Search button

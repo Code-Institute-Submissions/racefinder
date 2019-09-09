@@ -131,13 +131,10 @@ html, body  {
 
 
 
-#loaderimg {
-	max-width: 15vw;
-	filter: grayscale(100%);
 }
 #errormessage, #message, #loader {
 	margin: 30px 0 0 0;
-	font-size: 20px;
+	font-size: 30px;
 	text-align: center;
 
 }

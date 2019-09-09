@@ -1,4 +1,4 @@
-# Your Project's Name
+# UK RaceFinder
 
 The "UK RaceFinder" website is a user friendly tool that enables runners of all abilities to look for their next challenge in the UK.
 
