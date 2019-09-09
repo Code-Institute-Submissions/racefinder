@@ -2,11 +2,12 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN STRUCTURE */
 
-html, body {
+html, body  {
 	height: 100%;
 	width: 100%;
 	margin: 0;
 	padding: 0;
+	text-align: center;
 }
 
 .row, .col {
@@ -22,17 +23,21 @@ html, body {
 }
 
 
-.footer {
-	position: absolute;
-  	bottom: 0;
-  	left: 0;
+#footerbeforesearch, #footerpostsearch {
+
 	background-color: #505058;
 	color: #fff;
 	width: 100%;
 	height:70px;
 	padding: 0;
 	margin:0;
+	position: fixed;
+    bottom: 0;
+    width: 100%;
 }
+
+
+
 
 .container-fluid {
 	padding: 0;
@@ -49,11 +54,14 @@ html, body {
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RACE LIST */
 
+#resultscount{
+	margin: 20px 0 20px 0;
+}
 
 .event-box {
-
+	text-align: left;
 	background: none;
-	padding: 5px 5px 5px 5px;
+	padding: 5px 5px 5px 30px;
 	border: 2px;
 }
 
@@ -65,9 +73,20 @@ html, body {
 	margin-right: 10px;
 }
 
+#race-data-container {
+
+	padding: 0 0 100px 0;
+}
+
+#pagenumberinput {
+	color: black;
+	background-color: #f6af32;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JUMBOTRON SEARCH BAR */
 
 .jumbotron {
+	text-align:center;
     margin: 0px;
     background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("background.jpg") ;
     background-position: top;
@@ -83,12 +102,25 @@ html, body {
       -o-background-size: cover;
   display: flex;
   align-items: center;
-  height: 350px;
+  height: 400px;
 
+  }
 
-.btn {
-	font-size: 12px;
-	padding: 5px 5px 5px 5px;
+ .btn {
+	font-size: 15px;
+	padding: 10px 10px 10px 10px;
+	margin: 10px;
+	background-color: #f6af32;
+}
+
+ #resultperpage, #radius {
+ 	background-color: #fff;
+ 	color: black;
+ }
+
+.filteritem {
+	
+	text-align: center;
 }
 
 
@@ -104,6 +136,7 @@ html, body {
 	filter: grayscale(100%);
 }
 #errormessage, #message, #loader {
+	margin: 30px 0 0 0;
 	font-size: 20px;
 	text-align: center;
 
@@ -113,19 +146,14 @@ img, #upbutton, #logo {
 	border: none;
 	margin:0;
 	padding:0;
+	color: #fff;
 }
 
 #logo {
 	height: 20px;
 }
 
-.rightfilter {
-	text-align: : left;
-}
 
-.leftfilter {
-	text-align: right;
-}
 
 
 
@@ -137,21 +165,10 @@ img, #upbutton, #logo {
 
 }
 
-/*CHECKHERE*/
-
-/*.main {
-
-	height: 53vh;  40 vh for jumbotron + 7 vh for footer
-}*/
-
-
-/*#main-container {
-	display: inline-block;
-}*/
 
 #poweredby {
 	text-align: right;
 	font-size: 12px;
-	padding: 0;
+	padding: 10px 0 0 0;
 	margin:0;
 }

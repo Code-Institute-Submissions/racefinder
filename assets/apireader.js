@@ -2,7 +2,8 @@ $(document).ready(function(){
 // making sure the document is fully loaded especially regarding the form
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INITIALISING VARIABLES + KEY LINKS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
+	$('#footerpostsearch').hide();
+
 	var gotopage =	1;
 	// API documentation : 
 	// http://developer.active.com/docs/read/v2_Activity_API_Search
@@ -63,6 +64,10 @@ $(document).ready(function(){
 	
 
 		number_results = 0;
+
+		$('#footerbeforesearch').show();
+		$('#footerpostsearch').hide();
+
 
 		$('#resultscount').html('<div class="col" id="resultscount"></div>');
 		$('#searchbar').html('<div class="col" id="searchbar"></div>');
@@ -194,8 +199,9 @@ $(document).ready(function(){
 				// Append all the info collected and formatted to the html document
 					$('#resultscount').html(raceListResults);
 					$('#race-data-container').html(raceList);
-					$('#searchbar').html(raceListNumbers);
-
+					$('#footerpostsearch').html(`<div class="col" id="poweredby">Powered by <a href="http://developer.active.com/apis" target="_blank"><img id="logo"src="assets/active-logo-white.png"></a></div><div>`+ raceListNumbers + `</div>`);
+					$('#footerbeforesearch').hide();
+					$('#footerpostsearch').show();
 
 
 				}

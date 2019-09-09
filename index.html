@@ -53,11 +53,11 @@
 				</div>
 			</div>
 				<div class="row filters">
-					<div class="col-md-6 leftfilter">
+					<div class="col-md-6 filteritem">
 						<label for="inputcity">City: </label>
 					 	<input id="inputcity" value="London">
 					</div>
-					<div class="col-md-6 rightfilter">
+					<div class="col-md-6 filteritem">
 						 <label for="radius">Radius from City: </label>
 							<select id="radius">
 							  <option value='5'>5mi</option>
@@ -71,13 +71,13 @@
 					</div>
 				</div>
 				<div class="row filters">
-					<div class="col-md-6 leftfilter">
+					<div class="col-md-6 filteritem">
 
 						
 						 <label for="startdate">Between: </label>
 						 <input type="text" id="startdate">
 					</div>
-					<div class="col-md-6 rightfilter">
+					<div class="col-md-6 filteritem">
 
 						 <label for="enddate">And: </label>
 						 <input type="text" id="enddate">
@@ -85,7 +85,7 @@
 					</div>
 				</div>
 				<div class="row filters">
-					<div class="col-md-6 leftfilter">
+					<div class="col-md-6 filteritem">
 
 						 <label for="resultperpage">Results Per Page: </label>
 						 <select id="resultperpage">
@@ -95,7 +95,7 @@
 						  <option value=100>100</option>
 						</select>
 					</div>
-					<div class="col-md-6 rightfilter">
+					<div class="col-md-6 filteritem">
 						<label for="sortby">Sort by: </label>
 						<select id="sortby">
 						  <option value='&sort=date_asc'>Date Ascending</option>
@@ -105,11 +105,11 @@
 					</div>
 				</div>
 				<div class="row filters">
-					<div class="col-md-6 leftfilter">
+					<div class="col-md-6 filteritem">
 						 <button class="btn" id="searchbutton">Search</button>
 					</div>
-					<div class="col-md-6 rightfilter">
-						 <button class="btn" id="clearbutton">Clear</button>
+					<div class="col-md-6 filteritem">
+						 <button class="btn" id="clearbutton">Clear Results</button>
 					</div>
 				</div>
 				
@@ -125,13 +125,17 @@
 			<div class="row wrapper" id="main-container">
 				<div class="col" id="resultscount"></div>
 				<div class="col" id="race-data-container"><p id="message">Please adjust your filters above and hit Search!</p></div>
+				<div class="col" id="footerpostsearch"></div>
 			</div>
 
-			<div class="row footer" id="footer">
+			<div class="row" id="footerbeforesearch">
 				<div class="col" id="searchbar">
 				</div>
 				<div class="col" id="poweredby">Powered by <a href="http://developer.active.com/apis" target="_blank"><img id="logo"src="assets/active-logo-white.png"></a>
 			</div>
+
+
+
 
 		</div>
 
